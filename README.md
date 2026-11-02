@@ -2,7 +2,7 @@
 
 An independent, interactive **Power BI-style research report** examining whether Nigeria's important African trade relationships align with the payment destinations publicly advertised through PAPSS and selected participating banks.
 
-**[Repository](https://github.com/Codeventurer144/papss-opportunity-gap)** · [Report (GitHub Pages)](https://codeventurer144.github.io/papss-opportunity-gap/)
+**[Repository](https://github.com/Codeventurer144/papss-opportunity-gap)** · Proposed report URL after Pages activation: `https://codeventurer144.github.io/papss-opportunity-gap/`
 
 ## Report pages
 
@@ -45,3 +45,9 @@ This is a static JavaScript + D3.js report with no build step. Open `index.html`
 GitHub Actions checks the research snapshot and JavaScript syntax, then deploys to GitHub Pages from `main`. If the published map library cannot load, the other report pages remain available.
 
 **Next research task:** obtain comparable corridor-level commodity data and verify bank-specific payment route availability before ranking adoption or expansion opportunities.
+
+## One-time GitHub Pages setup
+
+GitHub's workflow token cannot enable Pages in a newly created repository (the API returns `Resource not accessible by integration`). The repository owner needs to visit **Settings → Pages → Build and deployment → Source → GitHub Actions** once. After that, rerun the existing **Test and deploy research report** workflow from the Actions tab. The deployment URL will appear in that run when the deploy job succeeds.
+
+JavaScript syntax, research data checks and headless browser rendering run independently of Pages activation. A failed deployment job before activation does not mean these checks failed.
