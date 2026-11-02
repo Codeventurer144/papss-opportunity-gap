@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="Independent data analysis of PAPSS payment-route visibility and Nigeria's intra-African trade corridors.">
+<title>PAPSS Opportunity Gap · Research dashboard</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%275%27 fill=%27%23e77224%27/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js" defer></script>
+<script src="data.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="report-shell">
+  <aside class="report-rail" aria-label="Report pages">
+    <div class="rail-brand" title="PAPSS Opportunity Gap"><span class="brand-mark">◫</span><span class="brand-name">POG</span></div>
+    <nav id="navList" class="rail-pages"></nav>
+    <button class="rail-help" id="helpBtn" aria-label="Report information" title="About this report">?</button>
+  </aside>
+  <div class="report-main">
+    <header class="report-toolbar">
+      <div class="report-identity"><span class="toolbar-icon">▦</span><strong>PAPSS Opportunity Gap</strong><span class="toolbar-sep"></span><span id="crumb">01 / Context</span></div>
+      <div class="toolbar-right"><span class="toolbar-tag">NIGERIA · Q2 2026</span><span class="toolbar-tag">RESEARCH SNAPSHOT · 02 NOV 2026</span></div>
+    </header>
+    <main id="view" class="report-canvas" aria-live="polite"></main>
+    <footer class="report-footer"><div class="page-tab-strip" id="pageTabs" aria-label="Report page tabs"></div><div class="footer-pager"><button id="prevBtn" aria-label="Previous report page" title="Previous page">‹</button><span id="footCounter">01 / 07</span><button id="nextBtn" aria-label="Next report page" title="Next page">›</button></div></footer>
+  </div>
+</div>
+<div id="globalTip" class="map-tooltip" role="status" hidden></div>
+<dialog id="helpDialog" class="help-dialog"><form method="dialog"><button aria-label="Close" class="close-help">×</button></form><h2>About the analysis</h2><p>Independent research, not a PAPSS or Afreximbank product. Figures are drawn from published trade and payment-route directories, not PAPSS transactions. Missing directory entries do not establish unavailable payment corridors.</p><form method="dialog"><button class="solid-button">Close</button></form></dialog>
+</body>
+</html>
