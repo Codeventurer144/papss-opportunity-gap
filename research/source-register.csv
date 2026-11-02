@@ -1,0 +1,8 @@
+source_id,source_type,observation_period,access_date,url,role,limitation
+PAPSS_NIGERIA,Operator directory,Current public listing,2026-11-02,https://papss.com/papss-send-money-from-nigeria-to-africa/,Sending providers and 14 destination endpoints,"Dynamic page; not verified live transfer tests"
+FIRSTBANK,Nigerian participating bank service page,Current public listing,2026-11-02,https://firstbankgroup.com/ng/personal/money-transfer/papss/,21 advertised destinations,"Provider-facing marketing page; route details may differ"
+ACCESSBANK,Nigerian participating bank service page,Current public listing,2026-11-02,https://www.accessbankplc.com/personal/money-transfer/papss,11 advertised destinations,"Provider-facing marketing page; route details may differ"
+NBS_Q2_2026,Official national statistical release,2026-Q2,2026-10-30,https://microdata.nigerianstat.gov.ng/index.php/catalog/84/related-materials,Source lineage for merchandise export data,"Official Excel tables not reproduced in this repository"
+VON_Q2_2026,Reproduction of national statistics,2026-Q2,2026-10-30,https://von.gov.ng/nigerias-trade-surplus-rises-to-n12-60tn-in-q2-2026/,Africa export totals and destination rankings,"Values rounded to available public precision"
+THEFACT_COMMODITIES,Reproduction of national statistics,2026-Q2,2026-11-02,https://thefact.ng/nigerias-foreign-trade-hits-%E2%82%A641-44trn-in-q2-2026-nbs/,Aggregate commodity composition,"Not corridor-specific commodity composition"
+NATURAL_EARTH,Public geographic dataset,World boundaries,2026-11-02,https://www.naturalearthdata.com/about/terms-of-use/,Country outlines for map,"Geographic boundaries not legal authority"
