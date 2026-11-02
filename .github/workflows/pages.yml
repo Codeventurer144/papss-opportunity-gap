@@ -1,0 +1,52 @@
+name: Test and deploy research report
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax check
+        run: node --check app.js && node --check data.js
+      - name: Verify research snapshot
+        run: |
+          node - <<'NODE'
+          const assert = require('node:assert/strict');
+          global.window = global;
+          require('./data.js');
+          const d = global.PAPSS_DATA;
+          assert.equal(d.centralDestinations, 14);
+          assert.equal(d.firstBankDestinations, 21);
+          assert.equal(d.endpoints.length, 14);
+          assert.equal(d.endpoints.reduce((s,x)=>s+x.count,0),217);
+          assert.equal(d.trade.length,5);
+          assert.equal(d.trade.find(x=>x.iso3==='TGO').firstbank,'Listed');
+          assert.ok(Math.abs(d.trade.reduce((s,x)=>s+x.exportsBn,0)/d.totalAfricaExportsBn*100-74.75)<0.15);
+          console.log('Research snapshot checks passed');
+          NODE
+  deploy:
+    needs: verify
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - id: deployment
+        uses: actions/deploy-pages@v4
