@@ -129,3 +129,16 @@ button:focus-visible,a:focus-visible,path:focus-visible,input:focus-visible{outl
 .corridor-row.active .corridor-status{font-weight:800}
 @media(max-height:740px) and (min-width:851px){.corridor-row{padding:6px 7px}.corridor-table{margin-top:7px}.corridor-head{padding:5px 7px}}
 @media(max-width:470px){.corridor-head,.corridor-row{grid-template-columns:1.08fr .76fr .9fr;gap:4px}.corridor-row{padding:8px 5px}.corridor-row strong,.corridor-status{font-size:9px}}
+
+/* Compact Power BI-style sensitivity visual on the scenario page */
+.sensitivity-panel{border-top:1px solid #e7e9eb;margin-top:18px;padding-top:14px}
+.sensitivity-title{font-size:11px;font-weight:800;color:#414b54;margin-bottom:9px}
+.sensitivity-wrap{overflow-x:auto;padding-bottom:3px}
+.sensitivity-table{width:100%;border-collapse:separate;border-spacing:4px;table-layout:fixed;font-size:11px;font-variant-numeric:tabular-nums}
+.sensitivity-table th{font-size:10px;font-weight:750;color:#737c84;text-align:center;padding:7px 5px;background:#f7f8f9}
+.sensitivity-table th:first-child{width:170px;text-align:left;padding-left:10px}
+.sensitivity-table td{text-align:center;border:1px solid #f5e2d2;border-radius:2px;padding:13px 6px;color:#664020;font-weight:700;white-space:nowrap}
+.sensitivity-table .selected-cell{border:2px solid #b94d0c;color:#863804;font-weight:850;box-shadow:0 0 0 2px #fff1e4 inset}
+.sensitivity-panel .tiny-muted{margin:10px 0 0}
+@media(max-height:740px) and (min-width:851px){.sensitivity-panel{margin-top:11px;padding-top:9px}.sensitivity-table td{padding:7px 4px}}
+@media(max-width:620px){.sensitivity-table th:first-child{width:110px}.sensitivity-table td{padding:9px 3px;font-size:10px}.sensitivity-table th{font-size:9px}}
