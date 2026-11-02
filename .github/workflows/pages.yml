@@ -36,6 +36,24 @@ jobs:
           assert.ok(Math.abs(d.trade.reduce((s,x)=>s+x.exportsBn,0)/d.totalAfricaExportsBn*100-74.75)<0.15);
           console.log('Research snapshot checks passed');
           NODE
+      - name: Render dashboard smoke test
+        run: |
+          python3 -m http.server 8000 --bind 127.0.0.1 &
+          server=$!
+          trap 'kill $server' EXIT
+          sleep 2
+          browser=$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || true)
+          test -n "$browser" || { echo "No Chrome executable found"; exit 1; }
+          "$browser" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --virtual-time-budget=8500 --window-size=1440,900 --dump-dom http://127.0.0.1:8000 > /tmp/report.html
+          grep -q 'class="report-canvas"' /tmp/report.html
+          grep -q 'data-go="7"' /tmp/report.html
+          grep -q 'id="mapStage"' /tmp/report.html
+          "$browser" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --virtual-time-budget=8500 --window-size=1440,900 --screenshot=report-preview.png http://127.0.0.1:8000
+      - name: Save browser preview
+        uses: actions/upload-artifact@v4
+        with:
+          name: dashboard-preview
+          path: report-preview.png
   deploy:
     needs: verify
     runs-on: ubuntu-latest
