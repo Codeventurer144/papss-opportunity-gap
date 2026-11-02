@@ -57,13 +57,15 @@ layer.append("g").attr("class","countries").selectAll("path").data(country).ente
 .attr("data-iso",d=>d.id==566?"NGA":(D.trade.find(x=>x.numeric==d.id)||{}).iso3||"")
 .attr("tabindex",d=>+d.id===566||D.trade.some(x=>x.numeric===+d.id)?0:null)
 .on("mousemove",function(e,d){const x=D.trade.find(a=>a.numeric===+d.id);if(+d.id===566||x)displayTip(x,e)})
-.on("mouseout",()=>{tip.hidden=true})
-.on("click",function(e,d){const x=D.trade.find(a=>a.numeric===+d.id);if(x)pinCountry(x.iso3)});
+.on("mouseout",()=>{if(!E.pin)tip.hidden=true})
+.on("click",function(e,d){const x=D.trade.find(a=>a.numeric===+d.id);if(x){pinCountry(x.iso3);if(E.pin)displayTip(x,e);else tip.hidden=true;}else if(+d.id===566)displayTip(null,e)})
+.on("keydown",function(e,d){if(e.key!=="Enter"&&e.key!==" ")return;e.preventDefault();const x=D.trade.find(a=>a.numeric===+d.id);const b=this.getBoundingClientRect(),pos={clientX:b.left+b.width/2,clientY:b.top+b.height/2};if(x){pinCountry(x.iso3);if(E.pin)displayTip(x,pos);else tip.hidden=true;}else if(+d.id===566)displayTip(null,pos)});
 const origin=projection([7.5,9.1]);const links=layer.append("g").attr("class","route-layer").attr("pointer-events","none");
 D.trade.forEach(x=>{const end=projection([x.lon,x.lat]);const dist=Math.hypot(end[0]-origin[0],end[1]-origin[1]),curve=dist*.16*(["TGO","GHA","CIV"].includes(x.iso3)?-1:1);
 links.append("path").attr("class","route-line").attr("data-to",x.iso3).attr("d","M"+origin[0]+","+origin[1]+" Q"+((origin[0]+end[0])/2+curve/3)+","+((origin[1]+end[1])/2-curve)+" "+end[0]+","+end[1]);
 links.append("circle").attr("cx",end[0]).attr("cy",end[1]).attr("r",2.3).attr("fill","#d96b1f");});
 links.append("circle").attr("cx",origin[0]).attr("cy",origin[1]).attr("r",3.5).attr("fill","#ba4d0b").attr("stroke","#fff").attr("stroke-width",2);
+if(E.pin){const previous=E.pin;E.pin=null;pinCountry(previous);}
 }).catch(()=>{svg.insertAdjacentHTML("afterend",'<div class="map-fallback">The geographic layer is temporarily unavailable. The country figures and later charts remain usable.</div>')});
 }
 function dirBar(x,max){return'<button class="bar-row row-button'+(E.endpoint===x.country?" is-current":"")+'" data-endpoint="'+x.country+'"><span class="bar-name">'+x.country+'</span><span class="bar-track"><span class="bar-fill" style="width:'+(x.count/max*100)+'%"></span></span><strong class="bar-value">'+x.count+'</strong></button>';}
