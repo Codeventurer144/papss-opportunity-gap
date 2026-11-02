@@ -49,11 +49,14 @@ jobs:
           grep -q 'data-go="7"' /tmp/report.html
           grep -q 'id="mapStage"' /tmp/report.html
           "$browser" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --virtual-time-budget=8500 --window-size=1440,900 --screenshot=report-preview.png http://127.0.0.1:8000
+          "$browser" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --virtual-time-budget=8500 --window-size=1440,900 --screenshot=report-page-2.png 'http://127.0.0.1:8000/#page-2'
+          "$browser" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --virtual-time-budget=8500 --window-size=1440,900 --screenshot=report-page-4.png 'http://127.0.0.1:8000/#page-4'
+          "$browser" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --virtual-time-budget=8500 --window-size=1440,900 --screenshot=report-page-6.png 'http://127.0.0.1:8000/#page-6'
       - name: Save browser preview
         uses: actions/upload-artifact@v4
         with:
           name: dashboard-preview
-          path: report-preview.png
+          path: report-*.png
   deploy:
     needs: verify
     runs-on: ubuntu-latest
