@@ -32,6 +32,19 @@ jobs:
           assert.equal(d.endpoints.length, 14);
           assert.equal(d.endpoints.reduce((s,x)=>s+x.count,0),217);
           assert.equal(d.trade.length,5);
+          assert.equal(d.endpoints.slice(0,5).reduce((sum,x)=>sum+x.count,0),169);
+          assert.ok(Math.abs(d.commodities.slice(0,5).reduce((sum,x)=>sum+x[1],0)-91.6)<0.01);
+          const fs = require('node:fs');
+          const rows=fs.readFileSync('research/corridor-review.csv','utf8').trim().split(/\r?\n/).slice(1);
+          assert.equal(rows.length,5);
+          for(const row of rows){
+            const fields=row.split(',');
+            const item=d.trade.find(x=>x.iso3===fields[1]);
+            assert.ok(item, 'CSV country missing in dashboard: '+fields[1]);
+            assert.ok(Math.abs(item.exportsBn-Number(fields[2]))<0.01);
+            assert.equal(item.centralStatus,fields[3]);
+            assert.equal(item.firstbank.toLowerCase().replace(' ','_'),fields[4]);
+          }
           assert.equal(d.trade.find(x=>x.iso3==='TGO').firstbank,'Listed');
           assert.ok(Math.abs(d.trade.reduce((s,x)=>s+x.exportsBn,0)/d.totalAfricaExportsBn*100-74.75)<0.15);
           console.log('Research snapshot checks passed');
@@ -48,10 +61,16 @@ jobs:
           grep -q 'class="report-canvas"' /tmp/report.html
           grep -q 'data-go="7"' /tmp/report.html
           grep -q 'id="mapStage"' /tmp/report.html
+          grep -q 'class="land origin focus"' /tmp/report.html
+          grep -q 'class="corridor-table"' /tmp/report.html
+          "$browser" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --virtual-time-budget=8500 --window-size=1440,900 --dump-dom 'http://127.0.0.1:8000/#page-6' > /tmp/scenario.html
+          grep -q 'id="eligibleRange"' /tmp/scenario.html
+          grep -q 'id="scenarioResult"' /tmp/scenario.html
           "$browser" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --virtual-time-budget=8500 --window-size=1440,900 --screenshot=report-preview.png http://127.0.0.1:8000
           "$browser" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --virtual-time-budget=8500 --window-size=1440,900 --screenshot=report-page-2.png 'http://127.0.0.1:8000/#page-2'
           "$browser" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --virtual-time-budget=8500 --window-size=1440,900 --screenshot=report-page-4.png 'http://127.0.0.1:8000/#page-4'
           "$browser" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --virtual-time-budget=8500 --window-size=1440,900 --screenshot=report-page-6.png 'http://127.0.0.1:8000/#page-6'
+          "$browser" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --virtual-time-budget=8500 --window-size=390,844 --screenshot=report-mobile.png http://127.0.0.1:8000
       - name: Save browser preview
         uses: actions/upload-artifact@v4
         with:
