@@ -24,7 +24,7 @@ tabs.innerHTML=P.map((x,i)=>'<button type="button" class="page-tab" data-go="'+(
 [nav,tabs].forEach(el=>el.addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(b)goto(+b.dataset.go)}));
 $("#prevBtn").onclick=()=>goto(E.page-1);$("#nextBtn").onclick=()=>goto(E.page+1);
 $("#helpBtn").onclick=()=>$("#helpDialog").showModal();
-document.addEventListener("keydown",e=>{if(e.key==="Escape"){tip.hidden=true;E.pin=null}if(!e.altKey)return;if(e.key==="ArrowRight")goto(E.page+1);if(e.key==="ArrowLeft")goto(E.page-1)});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){tip.hidden=true;if(E.page===1&&E.pin)pinCountry(E.pin);else E.pin=null}if(!e.altKey)return;if(e.key==="ArrowRight")goto(E.page+1);if(e.key==="ArrowLeft")goto(E.page-1)});
 window.addEventListener("hashchange",()=>{const n=Number(location.hash.replace("#page-",""));if(n!==E.page&&n>=1&&n<=7)goto(n,false)});
 function goto(n,hash=true){if(n<1||n>7)return;E.page=n;if(hash)history.replaceState(null,"","#page-"+n);
 tip.hidden=true;$$("[data-go]").forEach(el=>{const on=Number(el.dataset.go)===n;el.classList.toggle("active",on);if(on)el.setAttribute("aria-current","page");else el.removeAttribute("aria-current")});
@@ -38,7 +38,7 @@ function tipHtml(x){if(!x)return'<strong>Nigeria</strong><div class="tip-row"><s
 return'<strong>'+x.country+'</strong><div class="tip-row"><span>Q2 2026 exports</span><span>'+money(x.exportsBn)+'</span></div><div class="tip-row"><span>Share of African exports</span><span>'+percent(share(x.exportsBn))+'</span></div><div class="tip-row"><span>Central PAPSS page</span><span>'+status(x.centralStatus).replace("not_listed","Not listed")+'</span></div><div class="tip-row"><span>FirstBank page</span><span>'+x.firstbank+'</span></div><div class="tip-foot">Advertised listings do not prove successful end-to-end transfers.</div>'}
 function displayTip(x,e){tip.innerHTML=tipHtml(x);tip.hidden=false;const w=tip.offsetWidth,h=tip.offsetHeight;
 tip.style.left=Math.max(12,Math.min(innerWidth-w-12,e.clientX+15))+"px";tip.style.top=Math.max(12,Math.min(innerHeight-h-12,e.clientY+15))+"px";}
-function pinCountry(iso){E.pin=E.pin===iso?null:iso;$$(".corridor-row").forEach(el=>el.classList.toggle("active",el.dataset.iso===E.pin));$$(".land.focus").forEach(el=>el.classList.toggle("is-selected",el.dataset.iso===E.pin));
+function pinCountry(iso){tip.hidden=true;E.pin=E.pin===iso?null:iso;$$(".corridor-row").forEach(el=>el.classList.toggle("active",el.dataset.iso===E.pin));$$(".land.focus").forEach(el=>el.classList.toggle("is-selected",el.dataset.iso===E.pin));
 $$(".route-line").forEach(el=>el.classList.toggle("is-muted",!!E.pin&&el.dataset.to!==E.pin));
 const x=D.trade.find(d=>d.iso3===E.pin);
 $("#selectedSummary").innerHTML=x?'<div class="selection-title">'+x.country+' · '+money(x.exportsBn)+'</div><div>Central directory: <strong>'+status(x.centralStatus).replace("not_listed","Not listed")+'</strong> &nbsp;·&nbsp; FirstBank: <strong>'+x.firstbank+'</strong></div>':"";}
